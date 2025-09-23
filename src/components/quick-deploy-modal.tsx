@@ -76,7 +76,7 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
           setRepos(data);
           setStep('select');
         }
-      } catch (e) {
+      } catch (_err) {
         if (!didCancel) {
           setGithubConnected(false);
         }
@@ -99,7 +99,7 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
     // Simulate deployment process
     setTimeout(() => {
       // Add deployment to table
-      const addDeployment = (globalThis as any).addDeployment;
+      const addDeployment = typeof window !== 'undefined' ? window.addDeployment : undefined;
       const slug = selectedRepo.replace('/', '-');
       if (addDeployment) {
         addDeployment({

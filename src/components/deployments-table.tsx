@@ -24,9 +24,15 @@ interface Deployment {
   repo: string;
 }
 
+declare global {
+  interface Window {
+    addDeployment?: (deployment: Omit<Deployment, 'id' | 'createdAt'>) => void;
+  }
+}
+
 export function DeploymentsTable() {
   const [deployments, setDeployments] = useState<Deployment[]>([]);
-  const { theme, mounted } = useTheme();
+  const { theme } = useTheme();
 
   // Function to add a new deployment (used by QuickDeployModal)
   const addDeployment = (deployment: Omit<Deployment, 'id' | 'createdAt'>) => {
@@ -38,8 +44,10 @@ export function DeploymentsTable() {
     setDeployments(prev => [newDeployment, ...prev]);
   };
 
-  // Expose addDeployment to parent component
-  (globalThis as any).addDeployment = addDeployment;
+  // Expose addDeployment to parent component (typed on window)
+  if (typeof window !== 'undefined') {
+    window.addDeployment = addDeployment;
+  }
 
   if (deployments.length === 0) {
     return (

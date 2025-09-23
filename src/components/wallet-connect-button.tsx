@@ -3,7 +3,7 @@
 import { useCurrentAccount, useDisconnectWallet, useAccounts, ConnectButton } from '@mysten/dapp-kit';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/theme-provider';
-import { Wallet, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +21,7 @@ export function WalletConnectButton({
   const account = useCurrentAccount();
   const { mutate: disconnect } = useDisconnectWallet();
   const { theme, mounted } = useTheme();
-  const accounts = useAccounts();
+  useAccounts();
 
   if (!mounted) {
     return <Button disabled>{connectText}</Button>;
