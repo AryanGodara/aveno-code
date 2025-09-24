@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+contracts/build/*
+contracts/.trace
+contracts/.coverage*
+
+contracts/typescript-examples/backend/node_modules
+contracts/typescript-examples/frontend/node_modules
