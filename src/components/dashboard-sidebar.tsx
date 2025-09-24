@@ -5,7 +5,7 @@ import { Rocket, FolderOpen } from 'lucide-react';
 
 const sidebarItems = [
   {
-    name: 'Deployments',
+    name: 'Dashboard',
     icon: Rocket,
     href: '/dashboard',
     current: true,
@@ -37,7 +37,7 @@ export function DashboardSidebar() {
                   ? theme === 'neon'
                     ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/50'
                     : theme === 'brutal'
-                    ? 'bg-green-500 text-black brutal-shadow'
+                    ? 'bg-sky-500 text-black brutal-shadow'
                     : 'bg-primary/10 text-primary'
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted'
               }`}
