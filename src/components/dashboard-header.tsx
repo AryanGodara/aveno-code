@@ -1,7 +1,6 @@
 'use client';
 
 import { WalletConnectButton } from '@/components/wallet-connect-button';
-import { ThemeToggle } from '@/components/theme-toggle';
 
 export function DashboardHeader() {
   return (

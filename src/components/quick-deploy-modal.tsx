@@ -26,6 +26,8 @@ type GitHubRepo = {
   language: string | null;
   full_name: string;
   private: boolean;
+  stargazers_count?: number;
+  updated_at?: string;
 };
 
 export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) {
@@ -35,7 +37,6 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
   const [loadingRepos, setLoadingRepos] = useState(false);
   const [githubConnected, setGithubConnected] = useState(false);
   const [filter, setFilter] = useState('');
-  const [isDeploying, setIsDeploying] = useState(false);
   const { theme } = useTheme();
 
   // Reset state when modal closes
@@ -77,7 +78,7 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
           setRepos(data);
           setStep('select');
         }
-      } catch (_err) {
+      } catch {
         if (!didCancel) {
           setGithubConnected(false);
           setStep('connect');
@@ -112,7 +113,6 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
   const handleDeploy = async () => {
     if (!selectedRepo) return;
     
-    setIsDeploying(true);
     setStep('deploy');
     
     // Simulate deployment process
@@ -130,7 +130,6 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
       }
       
       setStep('success');
-      setIsDeploying(false);
     }, 3000);
   };
 
@@ -260,14 +259,14 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
                           {repo.language}
                         </span>
                       )}
-                      {typeof (repo as any).stargazers_count === 'number' && (
+                      {typeof repo.stargazers_count === 'number' && (
                         <span className="inline-flex items-center gap-1">
                           <Star className="w-3.5 h-3.5" />
-                          {(repo as any).stargazers_count}
+                          {repo.stargazers_count}
                         </span>
                       )}
-                      {(repo as any).updated_at && (
-                        <span>Updated {formatUpdated((repo as any).updated_at)}</span>
+                      {repo.updated_at && (
+                        <span>Updated {formatUpdated(repo.updated_at)}</span>
                       )}
                     </div>
                   </div>

@@ -9,7 +9,7 @@ import { Plus } from 'lucide-react';
 
 export default function Dashboard() {
   const [isQuickDeployOpen, setIsQuickDeployOpen] = useState(false);
-  const { theme, mounted } = useTheme();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const handleOpenQuickDeploy = () => {
