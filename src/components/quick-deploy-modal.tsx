@@ -256,24 +256,30 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
                 placeholder="Search repositories"
-                className={`w-full h-9 px-3 rounded-md border bg-background text-foreground placeholder:text-muted-foreground text-sm outline-none ${
+                className={`w-full h-9 px-3 rounded-md border text-foreground placeholder:text-muted-foreground text-sm outline-none ${
                   theme === 'neon'
-                    ? 'border-cyan-500/40 focus:ring-2 focus:ring-cyan-500/60'
+                    ? 'border-cyan-500/40 focus:ring-2 focus:ring-cyan-500/60 bg-zinc-800 focus:bg-zinc-750'
                     : theme === 'brutal'
-                    ? 'brutal-border focus:outline-none'
-                    : ''
+                    ? 'brutal-border focus:outline-none bg-zinc-800'
+                    : 'bg-zinc-800 border-zinc-700 focus:border-zinc-600'
                 }`}
               />
             </div>
 
             {/* List */}
-            <div className="space-y-2 max-h-96 overflow-y-auto border rounded-md p-2 bg-card/50">
+            <div className={`space-y-1 max-h-96 overflow-y-auto border rounded-md p-1 scrollbar-hide ${
+              theme === 'neon'
+                ? 'bg-zinc-800/80 border-cyan-500/30'
+                : theme === 'brutal'
+                ? 'bg-zinc-800 brutal-border'
+                : 'bg-zinc-800 border-zinc-700'
+            }`}>
               {loadingRepos && (
                 <div className="text-center text-sm text-muted-foreground">Loading repositories…</div>
               )}
               {!loadingRepos && filteredRepos.map((repo) => {
                 const selected = selectedRepo === repo.full_name;
-                const base = 'flex items-center justify-between px-3 py-2 rounded-md border transition text-sm';
+                const base = 'flex items-start justify-between px-3 py-3 rounded-md border transition text-sm gap-3';
                 const neon = selected
                   ? 'border-cyan-500 bg-cyan-500/10 neon-glow-cyan'
                   : 'border-border hover:border-cyan-500/60 hover:bg-cyan-500/5';
@@ -295,30 +301,32 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
                       if (e.key === 'Enter' || e.key === ' ') setSelectedRepo(repo.full_name);
                     }}
                   >
-                    <div className="min-w-0 pr-3">
-                      <div className="flex items-center gap-2">
-                        {repo.private && <Lock className="w-3.5 h-3.5 text-muted-foreground" />}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        {repo.private && <Lock className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />}
                         <span className="font-mono truncate">{repo.full_name}</span>
                       </div>
                       {repo.description && (
-                        <p className="text-xs text-muted-foreground truncate">{repo.description}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-2">{repo.description}</p>
                       )}
                     </div>
-                    <div className="flex items-center gap-3 shrink-0 text-xs text-muted-foreground">
+                    <div className="flex flex-col items-end gap-1 shrink-0 text-xs text-muted-foreground">
                       {repo.language && (
-                        <span className="px-2 py-0.5 rounded bg-muted text-foreground/80">
+                        <span className="px-2 py-0.5 rounded bg-muted text-foreground/80 whitespace-nowrap">
                           {repo.language}
                         </span>
                       )}
-                      {typeof repo.stargazers_count === 'number' && (
-                        <span className="inline-flex items-center gap-1">
-                          <Star className="w-3.5 h-3.5" />
-                          {repo.stargazers_count}
-                        </span>
-                      )}
-                      {repo.updated_at && (
-                        <span>Updated {formatUpdated(repo.updated_at)}</span>
-                      )}
+                      <div className="flex items-center gap-1">
+                        {typeof repo.stargazers_count === 'number' && (
+                          <span className="inline-flex items-center gap-1 whitespace-nowrap">
+                            <Star className="w-3.5 h-3.5" />
+                            {repo.stargazers_count}
+                          </span>
+                        )}
+                        {repo.updated_at && (
+                          <span className="whitespace-nowrap">Updated {formatUpdated(repo.updated_at)}</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 );
@@ -405,7 +413,13 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
               </p>
               
               {deploymentResult && (
-                <div className="bg-card/50 rounded-lg p-4 mb-6 text-left space-y-2">
+                <div className={`rounded-lg p-4 mb-6 text-left space-y-2 ${
+                  theme === 'neon'
+                    ? 'bg-zinc-800/80 border border-cyan-500/30'
+                    : theme === 'brutal'
+                    ? 'bg-zinc-800 brutal-border'
+                    : 'bg-zinc-800 border border-zinc-700'
+                }`}>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Build ID:</span>
                     <span className="text-sm font-mono">{deploymentResult.buildId}</span>
@@ -497,12 +511,12 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className={`sm:max-w-md ${
+      <DialogContent className={`sm:max-w-2xl max-w-[95vw] ${
         theme === 'brutal' 
-          ? 'brutal-border brutal-shadow' 
+          ? 'brutal-border brutal-shadow bg-zinc-900' 
           : theme === 'neon'
-          ? 'border-cyan-500/50 bg-card/95 backdrop-blur-sm'
-          : ''
+          ? 'border-cyan-500/50 bg-zinc-900/95 backdrop-blur-sm'
+          : 'bg-zinc-900'
       }`}>
         <DialogHeader>
           <DialogTitle className="font-display">Quick Deploy</DialogTitle>
