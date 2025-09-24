@@ -193,7 +193,7 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
               theme === 'neon'
                 ? 'bg-cyan-500/20 text-cyan-400'
                 : theme === 'brutal'
-                ? 'bg-green-500 text-black'
+                ? 'bg-sky-500 text-black'
                 : 'bg-muted text-muted-foreground'
             }`}>
               <Github className="w-8 h-8" />
@@ -209,7 +209,7 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
                   theme === 'neon'
                     ? 'neon-glow-cyan hover:neon-glow-green bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold transition-all duration-300'
                     : theme === 'brutal'
-                    ? 'brutal-shadow brutal-border bg-green-500 text-black font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200'
+                    ? 'brutal-shadow brutal-border bg-sky-500 text-black font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200'
                     : ''
                 } font-display`}
               >
@@ -343,7 +343,7 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
                   theme === 'neon'
                     ? 'neon-glow-cyan hover:neon-glow-green bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold transition-all duration-300'
                     : theme === 'brutal'
-                    ? 'brutal-shadow brutal-border bg-green-500 text-black font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200'
+                    ? 'brutal-shadow brutal-border bg-sky-500 text-black font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200'
                     : ''
                 } font-display`}
               >

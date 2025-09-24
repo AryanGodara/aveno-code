@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { useCurrentAccount } from '@mysten/dapp-kit'
 import { CreditCard, Rocket, FileText } from 'lucide-react'
 
@@ -51,7 +51,7 @@ export default function HomePage() {
         {features.map((feature) => (
           <Link
             key={feature.title}
-            to={feature.href}
+            href={feature.href}
             className="group relative overflow-hidden rounded-lg bg-white shadow hover:shadow-lg transition-shadow duration-300"
           >
             <div className="p-6">
@@ -87,7 +87,7 @@ export default function HomePage() {
         </div>
         <div className="mt-4">
           <Link
-            to="/contracts"
+            href="/contracts"
             className="text-primary-600 hover:text-primary-700 font-medium"
           >
             View Full Contract Details →
@@ -105,7 +105,7 @@ export default function HomePage() {
                 1
               </div>
               <p className="text-primary-800">
-                <Link to="/subscription" className="font-medium hover:underline">
+                <Link href="/subscription" className="font-medium hover:underline">
                   Subscribe to a deployment plan
                 </Link> to get started with deployments
               </p>
@@ -115,7 +115,7 @@ export default function HomePage() {
                 2
               </div>
               <p className="text-primary-800">
-                <Link to="/deployments" className="font-medium hover:underline">
+                <Link href="/deployments" className="font-medium hover:underline">
                   Deploy your first application
                 </Link> using our deployment dashboard
               </p>
