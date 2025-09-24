@@ -10,14 +10,14 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/theme-provider';
-import { Github, Loader2, Check, ExternalLink, Star, Lock } from 'lucide-react';
+import { Github, Loader2, Check, ExternalLink, Star, Lock, AlertCircle } from 'lucide-react';
 
 interface QuickDeployModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-type Step = 'loading' | 'connect' | 'select' | 'deploy' | 'success';
+type Step = 'loading' | 'connect' | 'select' | 'deploy' | 'success' | 'error';
 
 type GitHubRepo = {
   id: number;
@@ -30,6 +30,15 @@ type GitHubRepo = {
   updated_at?: string;
 };
 
+type DeploymentResult = {
+  success: boolean;
+  message: string;
+  buildId: string;
+  portalUrl: string;
+  publicHost: string;
+  publicUrl: string;
+};
+
 export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) {
   const [step, setStep] = useState<Step>('loading');
   const [selectedRepo, setSelectedRepo] = useState<string | null>(null);
@@ -37,6 +46,9 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
   const [loadingRepos, setLoadingRepos] = useState(false);
   const [githubConnected, setGithubConnected] = useState(false);
   const [filter, setFilter] = useState('');
+  const [deploymentResult, setDeploymentResult] = useState<DeploymentResult | null>(null);
+  const [deploymentProgress, setDeploymentProgress] = useState(0);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { theme } = useTheme();
 
   // Reset state when modal closes
@@ -45,6 +57,9 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
       setStep('loading');
       setSelectedRepo(null);
       setFilter('');
+      setDeploymentResult(null);
+      setDeploymentProgress(0);
+      setErrorMessage(null);
     }
     onOpenChange(newOpen);
   };
@@ -114,23 +129,59 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
     if (!selectedRepo) return;
     
     setStep('deploy');
+    setDeploymentProgress(0);
+    setErrorMessage(null);
     
-    // Simulate deployment process
-    setTimeout(() => {
-      // Add deployment to table
-      const addDeployment = typeof window !== 'undefined' ? window.addDeployment : undefined;
-      const slug = selectedRepo.replace('/', '-');
-      if (addDeployment) {
-        addDeployment({
-          name: selectedRepo,
-          status: 'success' as const,
-          url: `https://${slug}-aveno.vercel.app`,
-          repo: `github.com/${selectedRepo}`,
-        });
-      }
+    // Simulate progress animation
+    const progressInterval = setInterval(() => {
+      setDeploymentProgress(prev => {
+        if (prev >= 90) {
+          clearInterval(progressInterval);
+          return 90;
+        }
+        return prev + Math.random() * 15;
+      });
+    }, 500);
+    
+    try {
+      const githubUrl = `https://github.com/${selectedRepo}`;
+      const response = await fetch('https://api.avenox.xyz/build', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ githubUrl }),
+      });
       
-      setStep('success');
-    }, 3000);
+      const result: DeploymentResult = await response.json();
+      
+      clearInterval(progressInterval);
+      setDeploymentProgress(100);
+      
+      if (result.success) {
+        setDeploymentResult(result);
+        
+        // Add deployment to table
+        const addDeployment = typeof window !== 'undefined' ? window.addDeployment : undefined;
+        if (addDeployment) {
+          addDeployment({
+            name: selectedRepo,
+            status: 'success' as const,
+            url: result.publicUrl,
+            repo: `github.com/${selectedRepo}`,
+          });
+        }
+        
+        setTimeout(() => setStep('success'), 500);
+      } else {
+        setErrorMessage(result.message || 'Deployment failed');
+        setStep('error');
+      }
+    } catch (error) {
+      clearInterval(progressInterval);
+      setErrorMessage(error instanceof Error ? error.message : 'Failed to deploy. Please try again.');
+      setStep('error');
+    }
   };
 
   const renderStep = () => {
@@ -308,8 +359,28 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
             </div>
             <div>
               <h3 className="text-lg font-semibold font-display mb-2">Deploying...</h3>
-              <p className="text-muted-foreground font-sans">
+              <p className="text-muted-foreground font-sans mb-4">
                 Building and deploying {selectedRepo}
+              </p>
+              
+              {/* Progress Bar */}
+              <div className="w-full bg-muted rounded-full h-2 mb-2">
+                <div 
+                  className={`h-2 rounded-full transition-all duration-500 ${
+                    theme === 'neon' 
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500' 
+                      : theme === 'brutal'
+                      ? 'bg-green-500'
+                      : 'bg-primary'
+                  }`}
+                  style={{ width: `${deploymentProgress}%` }}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground font-mono">
+                {deploymentProgress < 30 ? 'Cloning repository...' :
+                 deploymentProgress < 60 ? 'Installing dependencies...' :
+                 deploymentProgress < 90 ? 'Building application...' :
+                 'Publishing...'}
               </p>
             </div>
           </div>
@@ -329,13 +400,34 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
             </div>
             <div>
               <h3 className="text-lg font-semibold font-display mb-2">Deployed Successfully!</h3>
-              <p className="text-muted-foreground font-sans mb-6">
+              <p className="text-muted-foreground font-sans mb-4">
                 {selectedRepo} has been deployed and is now live
               </p>
+              
+              {deploymentResult && (
+                <div className="bg-card/50 rounded-lg p-4 mb-6 text-left space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">Build ID:</span>
+                    <span className="text-sm font-mono">{deploymentResult.buildId}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">Host:</span>
+                    <span className="text-sm font-mono">{deploymentResult.publicHost}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">URL:</span>
+                    <span className="text-sm font-mono text-blue-500 hover:underline cursor-pointer" 
+                          onClick={() => window.open(deploymentResult.publicUrl, '_blank')}>
+                      {deploymentResult.publicUrl}
+                    </span>
+                  </div>
+                </div>
+              )}
+              
               <div className="flex gap-3 justify-center">
                 <Button
                   variant="outline"
-                  onClick={() => window.open(`https://${selectedRepo}-aveno.vercel.app`, '_blank')}
+                  onClick={() => window.open(deploymentResult?.publicUrl || '#', '_blank')}
                   className="font-sans"
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
@@ -352,6 +444,49 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
                   } font-display`}
                 >
                   Done
+                </Button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'error':
+        return (
+          <div className="text-center space-y-6">
+            <div className={`inline-flex p-4 rounded-full ${
+              theme === 'neon'
+                ? 'bg-red-500/20 text-red-400'
+                : theme === 'brutal'
+                ? 'bg-red-500 text-black'
+                : 'bg-red-100 text-red-600'
+            }`}>
+              <AlertCircle className="w-8 h-8" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold font-display mb-2">Deployment Failed</h3>
+              <p className="text-muted-foreground font-sans mb-4">
+                {errorMessage || 'Something went wrong during deployment'}
+              </p>
+              
+              <div className="flex gap-3 justify-center">
+                <Button
+                  variant="outline"
+                  onClick={() => setStep('select')}
+                  className="font-sans"
+                >
+                  Try Again
+                </Button>
+                <Button
+                  onClick={() => handleOpenChange(false)}
+                  className={`${
+                    theme === 'neon'
+                      ? 'neon-glow-cyan hover:neon-glow-green bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold transition-all duration-300'
+                      : theme === 'brutal'
+                      ? 'brutal-shadow brutal-border bg-green-500 text-black font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200'
+                      : ''
+                  } font-display`}
+                >
+                  Close
                 </Button>
               </div>
             </div>
