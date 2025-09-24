@@ -12,7 +12,7 @@ export function WalletGate() {
         <div className="text-center space-y-8 max-w-lg">
           <div className="space-y-4">
             <h1 className="text-6xl font-bold font-display text-foreground">
-              Aveno
+              AvenoX
             </h1>
             <h2 className="text-2xl font-display text-foreground">
               Deploy with Ease
@@ -36,7 +36,7 @@ export function WalletGate() {
               ? 'text-transparent bg-gradient-to-r from-cyan-400 to-green-400 bg-clip-text' 
               : 'text-foreground'
           }`}>
-            Aveno
+            AvenoX
           </h1>
           <h2 className={`text-2xl font-display ${
             theme === 'neon' 

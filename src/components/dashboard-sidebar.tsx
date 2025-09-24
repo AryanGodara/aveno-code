@@ -22,7 +22,7 @@ export function DashboardSidebar() {
   const { theme } = useTheme();
 
   return (
-    <aside className={`w-64 border-r border-border bg-card/50 backdrop-blur-sm ${
+    <aside className={`w-64 h-full border-r border-border bg-card/50 backdrop-blur-sm ${
       theme === 'brutal' ? 'brutal-border-thick' : ''
     }`}>
       <nav className="p-6 space-y-2">

@@ -35,6 +35,7 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
   const [loadingRepos, setLoadingRepos] = useState(false);
   const [githubConnected, setGithubConnected] = useState(false);
   const [filter, setFilter] = useState('');
+  const [isDeploying, setIsDeploying] = useState(false);
   const { theme } = useTheme();
 
   // Reset state when modal closes

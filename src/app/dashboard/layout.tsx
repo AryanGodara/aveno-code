@@ -27,9 +27,9 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
-      <div className="flex">
+      <div className="flex h-[calc(100vh-4rem)]">
         <DashboardSidebar />
-        <main className="flex-1 p-6">
+        <main className="flex-1 w-full p-6 overflow-auto">
           {children}
         </main>
       </div>

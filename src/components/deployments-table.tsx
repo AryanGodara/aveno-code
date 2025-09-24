@@ -51,7 +51,7 @@ export function DeploymentsTable() {
 
   if (deployments.length === 0) {
     return (
-      <Card className={`${
+      <Card className={`w-full h-full flex flex-col ${
         theme === 'brutal' 
           ? 'brutal-border brutal-shadow' 
           : theme === 'neon'
@@ -73,7 +73,7 @@ export function DeploymentsTable() {
             Get started by deploying your first project
           </CardDescription>
         </CardHeader>
-        <CardContent className="text-center">
+        <CardContent className="text-center flex items-center justify-center">
           <Button
             onClick={() => {
               // Simulate clicking Quick Deploy
@@ -110,7 +110,7 @@ export function DeploymentsTable() {
   };
 
   return (
-    <Card className={`${
+    <Card className={`w-full h-full flex flex-col ${
       theme === 'brutal' 
         ? 'brutal-border brutal-shadow' 
         : theme === 'neon'
@@ -123,8 +123,9 @@ export function DeploymentsTable() {
           Monitor your deployment status
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <Table>
+      <CardContent className="w-full flex-1 fbex flex-col">
+        <div className="w-full flex-1 overflow-auto">
+          <Table className="w-full">
           <TableHeader>
             <TableRow>
               <TableHead className="font-sans">Project</TableHead>
@@ -162,6 +163,7 @@ export function DeploymentsTable() {
             ))}
           </TableBody>
         </Table>
+        </div>
       </CardContent>
     </Card>
   );

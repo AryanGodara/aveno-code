@@ -21,8 +21,8 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="h-full flex flex-col">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold font-display text-foreground">
             Dashboard
@@ -47,12 +47,14 @@ export default function Dashboard() {
         </Button>
       </div>
 
-      <DeploymentsTable />
+      <div className="flex-1 flex flex-col">
+        <DeploymentsTable />
 
-      <QuickDeployModal
-        open={isQuickDeployOpen}
-        onOpenChange={setIsQuickDeployOpen}
-      />
+        <QuickDeployModal
+          open={isQuickDeployOpen}
+          onOpenChange={setIsQuickDeployOpen}
+        />
+      </div>
     </div>
   );
 }

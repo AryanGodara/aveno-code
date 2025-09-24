@@ -9,12 +9,11 @@ export function DashboardHeader() {
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center space-x-4">
           <h1 className="text-xl font-bold font-display text-foreground">
-            Aveno
+            AvenoX
           </h1>
         </div>
 
         <div className="flex items-center space-x-4">
-          <ThemeToggle />
           <WalletConnectButton />
         </div>
       </div>
