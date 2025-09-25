@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTheme } from '@/components/theme-provider';
-import { Rocket, ExternalLink } from 'lucide-react';
+import { Rocket, ExternalLink, Link } from 'lucide-react';
 
 interface Deployment {
   id: string;
@@ -22,6 +22,8 @@ interface Deployment {
   url?: string;
   createdAt: Date;
   repo: string;
+  transactionDigest?: string;
+  onChain?: boolean;
 }
 
 declare global {
@@ -124,6 +126,7 @@ export function DeploymentsTable() {
               <TableHead className="font-switzer">Project</TableHead>
               <TableHead className="font-switzer">Repository</TableHead>
               <TableHead className="font-switzer">Status</TableHead>
+              <TableHead className="font-switzer">Type</TableHead>
               <TableHead className="font-switzer">Deployed</TableHead>
               <TableHead className="font-switzer">Actions</TableHead>
             </TableRow>
@@ -140,17 +143,47 @@ export function DeploymentsTable() {
                     {deployment.status}
                   </Badge>
                 </TableCell>
+                <TableCell>
+                  {deployment.onChain ? (
+                    <Badge variant="outline" className={
+                      theme === 'neon'
+                        ? 'bg-purple-500/10 text-purple-400 border-purple-500/50'
+                        : 'bg-purple-50 text-purple-700'
+                    }>
+                      <Link className="w-3 h-3 mr-1" />
+                      On-Chain
+                    </Badge>
+                  ) : (
+                    <Badge variant="outline" className="text-muted-foreground">
+                      Standard
+                    </Badge>
+                  )}
+                </TableCell>
                 <TableCell className="font-switzer text-sm text-muted-foreground">
                   {deployment.createdAt.toLocaleDateString()}
                 </TableCell>
                 <TableCell>
-                  {deployment.url && (
-                    <Button variant="ghost" size="sm" asChild>
-                      <a href={deployment.url} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    </Button>
-                  )}
+                  <div className="flex items-center gap-1">
+                    {deployment.url && (
+                      <Button variant="ghost" size="sm" asChild>
+                        <a href={deployment.url} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      </Button>
+                    )}
+                    {deployment.transactionDigest && (
+                      <Button variant="ghost" size="sm" asChild>
+                        <a
+                          href={`https://testnet.suivision.xyz/txblock/${deployment.transactionDigest}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="View on Sui Explorer"
+                        >
+                          <Link className="w-4 h-4" />
+                        </a>
+                      </Button>
+                    )}
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

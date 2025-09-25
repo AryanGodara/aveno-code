@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { DeploymentsTable } from '@/components/deployments-table';
-import { QuickDeployModal } from '@/components/quick-deploy-modal';
+import { QuickDeployModalV2 } from '@/components/quick-deploy-modal-v2';
+import { SubscriptionStatus } from '@/components/subscription-status';
 import { Plus } from 'lucide-react';
 
 export default function Dashboard() {
@@ -36,10 +37,19 @@ export default function Dashboard() {
         </Button>
       </div>
 
+      <div className="grid gap-6 md:grid-cols-4 mb-6">
+        <div className="md:col-span-3">
+          {/* Stats cards can go here */}
+        </div>
+        <div className="md:col-span-1">
+          <SubscriptionStatus />
+        </div>
+      </div>
+
       <div className="flex-1 flex flex-col">
         <DeploymentsTable />
 
-        <QuickDeployModal
+        <QuickDeployModalV2
           open={isQuickDeployOpen}
           onOpenChange={setIsQuickDeployOpen}
         />
