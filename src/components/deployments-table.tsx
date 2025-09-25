@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -14,15 +14,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTheme } from '@/components/theme-provider';
 import { Rocket, ExternalLink } from 'lucide-react';
-
-interface Deployment {
-  id: string;
-  name: string;
-  status: 'success' | 'pending' | 'failed';
-  url?: string;
-  createdAt: Date;
-  repo: string;
-}
+import { 
+  Deployment, 
+  getDeployments, 
+  addDeployment as addDeploymentToStorage 
+} from '@/lib/deployment-storage';
 
 declare global {
   interface Window {
@@ -34,20 +30,24 @@ export function DeploymentsTable() {
   const [deployments, setDeployments] = useState<Deployment[]>([]);
   const { theme } = useTheme();
 
+  // Load deployments from localStorage on component mount
+  useEffect(() => {
+    const storedDeployments = getDeployments();
+    setDeployments(storedDeployments);
+  }, []);
+
   // Function to add a new deployment (used by QuickDeployModal)
   const addDeployment = (deployment: Omit<Deployment, 'id' | 'createdAt'>) => {
-    const newDeployment: Deployment = {
-      ...deployment,
-      id: Math.random().toString(36).substr(2, 9),
-      createdAt: new Date(),
-    };
+    const newDeployment = addDeploymentToStorage(deployment);
     setDeployments(prev => [newDeployment, ...prev]);
   };
 
   // Expose addDeployment to parent component (typed on window)
-  if (typeof window !== 'undefined') {
-    window.addDeployment = addDeployment;
-  }
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addDeployment = addDeployment;
+    }
+  }, []);
 
   if (deployments.length === 0) {
     return (

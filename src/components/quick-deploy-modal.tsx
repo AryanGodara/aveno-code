@@ -11,6 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/theme-provider';
 import { Github, Loader2, Check, ExternalLink, Star, Lock, AlertCircle } from 'lucide-react';
+import { addDeployment as addDeploymentToStorage, updateDeployment } from '@/lib/deployment-storage';
 
 interface QuickDeployModalProps {
   open: boolean;
@@ -161,25 +162,82 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
       if (result.success) {
         setDeploymentResult(result);
         
-        // Add deployment to table
+        // Add deployment to localStorage and update table
+        const newDeployment = addDeploymentToStorage({
+          name: selectedRepo,
+          status: 'success' as const,
+          url: result.publicUrl,
+          repo: `github.com/${selectedRepo}`,
+          buildId: result.buildId,
+          publicHost: result.publicHost,
+        });
+        
+        // Also notify the table component to update its state
         const addDeployment = typeof window !== 'undefined' ? window.addDeployment : undefined;
         if (addDeployment) {
+          // Since we already added to storage, we just need to trigger table refresh
+          // The table will load from localStorage, so we can pass the same data
           addDeployment({
             name: selectedRepo,
             status: 'success' as const,
             url: result.publicUrl,
             repo: `github.com/${selectedRepo}`,
+            buildId: result.buildId,
+            publicHost: result.publicHost,
           });
         }
         
         setTimeout(() => setStep('success'), 500);
       } else {
         setErrorMessage(result.message || 'Deployment failed');
+        
+        // Add failed deployment to localStorage
+        if (selectedRepo) {
+          const failedDeployment = addDeploymentToStorage({
+            name: selectedRepo,
+            status: 'failed' as const,
+            repo: `github.com/${selectedRepo}`,
+            buildId: result.buildId,
+          });
+          
+          // Also notify the table component
+          const addDeployment = typeof window !== 'undefined' ? window.addDeployment : undefined;
+          if (addDeployment) {
+            addDeployment({
+              name: selectedRepo,
+              status: 'failed' as const,
+              repo: `github.com/${selectedRepo}`,
+              buildId: result.buildId,
+            });
+          }
+        }
+        
         setStep('error');
       }
     } catch (error) {
       clearInterval(progressInterval);
-      setErrorMessage(error instanceof Error ? error.message : 'Failed to deploy. Please try again.');
+      const errorMsg = error instanceof Error ? error.message : 'Failed to deploy. Please try again.';
+      setErrorMessage(errorMsg);
+      
+      // Add failed deployment to localStorage
+      if (selectedRepo) {
+        const failedDeployment = addDeploymentToStorage({
+          name: selectedRepo,
+          status: 'failed' as const,
+          repo: `github.com/${selectedRepo}`,
+        });
+        
+        // Also notify the table component
+        const addDeployment = typeof window !== 'undefined' ? window.addDeployment : undefined;
+        if (addDeployment) {
+          addDeployment({
+            name: selectedRepo,
+            status: 'failed' as const,
+            repo: `github.com/${selectedRepo}`,
+          });
+        }
+      }
+      
       setStep('error');
     }
   };
