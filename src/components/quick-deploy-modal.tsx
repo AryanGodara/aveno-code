@@ -218,14 +218,14 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
               theme === 'neon'
                 ? 'bg-cyan-500/20 text-cyan-400 neon-glow-cyan'
                 : theme === 'brutal'
-                ? 'bg-green-500 text-black'
+                ? 'bg-sky-500 text-black'
                 : 'bg-muted text-muted-foreground'
             }`}>
               <Loader2 className="w-8 h-8 animate-spin" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold font-display mb-2">Checking GitHub connection…</h3>
-              <p className="text-muted-foreground font-sans">
+              <h3 className="text-xl font-nohemi mb-2">Checking GitHub connection…</h3>
+              <p className="text-muted-foreground font-switzer">
                 Fetching your repositories
               </p>
             </div>

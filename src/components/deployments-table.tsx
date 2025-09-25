@@ -68,8 +68,8 @@ export function DeploymentsTable() {
           }`}>
             <Rocket className="w-8 h-8" />
           </div>
-          <CardTitle className="font-display text-xl">No deployments yet</CardTitle>
-          <CardDescription className="font-sans">
+          <CardTitle className="font-nohemi text-xl">No deployments yet</CardTitle>
+          <CardDescription className="font-switzer">
             Get started by deploying your first project
           </CardDescription>
         </CardHeader>

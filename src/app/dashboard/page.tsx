@@ -25,7 +25,7 @@ export default function Dashboard() {
           <h1 className="text-3xl font-nohemi text-foreground">
             Dashboard
           </h1>
-          <p className="text-muted-foreground mt-1 font-sans">
+          <p className="text-muted-foreground mt-1 font-nohemi">
             Manage your deployments
           </p>
         </div>
