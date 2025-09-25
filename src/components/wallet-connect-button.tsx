@@ -2,7 +2,6 @@
 
 import { useCurrentAccount, useDisconnectWallet, useAccounts, ConnectButton } from '@mysten/dapp-kit';
 import { Button } from '@/components/ui/button';
-import { useTheme } from '@/components/theme-provider';
 import { LogOut } from 'lucide-react';
 import {
   DropdownMenu,
@@ -20,18 +19,13 @@ export function WalletConnectButton({
 }) {
   const account = useCurrentAccount();
   const { mutate: disconnect } = useDisconnectWallet();
-  const { theme, mounted } = useTheme();
   useAccounts();
-
-  if (!mounted) {
-    return <Button disabled>{connectText}</Button>;
-  }
 
   if (account) {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="font-mono text-sm">
+          <Button variant="outline" size="sm">
             {`${account.address.slice(0, 6)}...${account.address.slice(-4)}`}
           </Button>
         </DropdownMenuTrigger>
@@ -48,13 +42,7 @@ export function WalletConnectButton({
   return (
     <ConnectButton
       connectText={connectText}
-      className={`${className} ${
-        theme === 'neon'
-          ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold'
-          : theme === 'brutal'
-          ? 'bg-green-500 text-black font-bold'
-          : ''
-      } font-display`}
+      className={`${className} font-switzer`}
     />
   );
 }

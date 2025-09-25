@@ -203,16 +203,7 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
               <p className="text-muted-foreground font-sans mb-6">
                 Connect your GitHub account to deploy repositories
               </p>
-              <Button
-                onClick={handleGitHubConnect}
-                className={`${
-                  theme === 'neon'
-                    ? 'neon-glow-cyan hover:neon-glow-green bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold transition-all duration-300'
-                    : theme === 'brutal'
-                    ? 'brutal-shadow brutal-border bg-sky-500 text-black font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200'
-                    : ''
-                } font-display`}
-              >
+              <Button onClick={handleGitHubConnect}>
                 <Github className="w-4 h-4 mr-2" />
                 Connect GitHub
               </Button>
@@ -339,13 +330,6 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
               <Button
                 onClick={handleDeploy}
                 disabled={!selectedRepo}
-                className={`${
-                  theme === 'neon'
-                    ? 'neon-glow-cyan hover:neon-glow-green bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold transition-all duration-300'
-                    : theme === 'brutal'
-                    ? 'brutal-shadow brutal-border bg-sky-500 text-black font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200'
-                    : ''
-                } font-display`}
               >
                 Deploy Selected
               </Button>
@@ -442,21 +426,11 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
                 <Button
                   variant="outline"
                   onClick={() => window.open(deploymentResult?.publicUrl || '#', '_blank')}
-                  className="font-sans"
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
                   View Site
                 </Button>
-                <Button
-                  onClick={() => handleOpenChange(false)}
-                  className={`${
-                    theme === 'neon'
-                      ? 'neon-glow-cyan hover:neon-glow-green bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold transition-all duration-300'
-                      : theme === 'brutal'
-                      ? 'brutal-shadow brutal-border bg-green-500 text-black font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200'
-                      : ''
-                  } font-display`}
-                >
+                <Button onClick={() => handleOpenChange(false)}>
                   Done
                 </Button>
               </div>
@@ -486,20 +460,10 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
                 <Button
                   variant="outline"
                   onClick={() => setStep('select')}
-                  className="font-sans"
                 >
                   Try Again
                 </Button>
-                <Button
-                  onClick={() => handleOpenChange(false)}
-                  className={`${
-                    theme === 'neon'
-                      ? 'neon-glow-cyan hover:neon-glow-green bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold transition-all duration-300'
-                      : theme === 'brutal'
-                      ? 'brutal-shadow brutal-border bg-green-500 text-black font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200'
-                      : ''
-                  } font-display`}
-                >
+                <Button onClick={() => handleOpenChange(false)}>
                   Close
                 </Button>
               </div>

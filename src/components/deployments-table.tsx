@@ -80,13 +80,6 @@ export function DeploymentsTable() {
               const event = new CustomEvent('openQuickDeploy');
               window.dispatchEvent(event);
             }}
-            className={`${
-              theme === 'neon'
-                ? 'neon-glow-cyan hover:neon-glow-green bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold transition-all duration-300'
-                : theme === 'brutal'
-                ? 'brutal-shadow brutal-border bg-sky-500 text-black font-bold hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200'
-                : ''
-            } font-display`}
           >
             <Rocket className="w-4 h-4 mr-2" />
             Deploy Your First Project
