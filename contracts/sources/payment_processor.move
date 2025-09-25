@@ -7,6 +7,7 @@ use sui::event;
 use sui::object::{Self, UID};
 use sui::transfer;
 use sui::tx_context::{Self, TxContext};
+use std::vector;
 
 // Error codes
 const E_INSUFFICIENT_BALANCE: u64 = 2001;

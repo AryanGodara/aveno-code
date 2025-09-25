@@ -1,0 +1,7 @@
+build/*
+.trace
+.coverage*
+
+typescript-examples/backend/node_modules
+typescript-examples/frontend/node_modules
+typescript-examples/node_modules
