@@ -199,8 +199,8 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
               <Github className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold font-display mb-2">Connect to GitHub</h3>
-              <p className="text-muted-foreground font-sans mb-6">
+              <h3 className="text-lg font-semibold font-nohemi mb-2">Connect to GitHub</h3>
+              <p className="text-muted-foreground font-switzer mb-6">
                 Connect your GitHub account to deploy repositories
               </p>
               <Button onClick={handleGitHubConnect}>
@@ -236,8 +236,8 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
         return (
           <div className="space-y-4">
             <div className="text-center mb-6">
-              <h3 className="text-lg font-semibold font-display mb-2">Select Repository</h3>
-              <p className="text-muted-foreground font-sans">
+              <h3 className="text-lg font-semibold font-nohemi mb-2">Select Repository</h3>
+              <p className="text-muted-foreground font-switzer">
                 Choose a repository to deploy
               </p>
             </div>
@@ -350,8 +350,8 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
               <Loader2 className="w-8 h-8 animate-spin" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold font-display mb-2">Deploying...</h3>
-              <p className="text-muted-foreground font-sans mb-4">
+              <h3 className="text-lg font-semibold font-nohemi mb-2">Deploying...</h3>
+              <p className="text-muted-foreground font-switzer mb-4">
                 Building and deploying {selectedRepo}
               </p>
               
@@ -391,8 +391,8 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
               <Check className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold font-display mb-2">Deployed Successfully!</h3>
-              <p className="text-muted-foreground font-sans mb-4">
+              <h3 className="text-lg font-semibold font-nohemi mb-2">Deployed Successfully!</h3>
+              <p className="text-muted-foreground font-switzer mb-4">
                 {selectedRepo} has been deployed and is now live
               </p>
               
@@ -451,8 +451,8 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
               <AlertCircle className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold font-display mb-2">Deployment Failed</h3>
-              <p className="text-muted-foreground font-sans mb-4">
+              <h3 className="text-lg font-semibold font-nohemi mb-2">Deployment Failed</h3>
+              <p className="text-muted-foreground font-switzer mb-4">
                 {errorMessage || 'Something went wrong during deployment'}
               </p>
               
@@ -483,8 +483,8 @@ export function QuickDeployModal({ open, onOpenChange }: QuickDeployModalProps) 
           : 'bg-zinc-900'
       }`}>
         <DialogHeader>
-          <DialogTitle className="font-display">Quick Deploy</DialogTitle>
-          <DialogDescription className="font-sans">
+          <DialogTitle className="font-nohemi">Quick Deploy</DialogTitle>
+          <DialogDescription className="font-switzer">
             Deploy your project in minutes
           </DialogDescription>
         </DialogHeader>

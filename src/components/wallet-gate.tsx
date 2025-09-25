@@ -11,14 +11,14 @@ export function WalletGate() {
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <div className="text-center space-y-8 max-w-lg">
           <div className="space-y-4">
-            <h1 className="text-6xl font-bold font-display text-foreground">
+            <h1 className="text-6xl font-bold font-nohemi text-foreground">
               AvenoX
             </h1>
-            <h2 className="text-2xl font-display text-foreground">
+            <h2 className="text-2xl font-nohemi text-foreground">
               Deploy with Ease
             </h2>
           </div>
-          <p className="text-muted-foreground text-lg font-sans">
+          <p className="text-muted-foreground text-lg font-switzer">
             Connect your Sui wallet to access the deployment dashboard
           </p>
           <WalletConnectButton connectText="Connect Sui Wallet" />
@@ -31,14 +31,14 @@ export function WalletGate() {
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="text-center space-y-8 max-w-lg">
         <div className="space-y-4">
-          <h1 className={`text-6xl font-bold font-display ${
+          <h1 className={`text-6xl font-bold font-nohemi ${
             theme === 'neon' 
               ? 'text-transparent bg-gradient-to-r from-cyan-400 to-green-400 bg-clip-text' 
               : 'text-foreground'
           }`}>
             AvenoX
           </h1>
-          <h2 className={`text-2xl font-display ${
+          <h2 className={`text-2xl font-nohemi ${
             theme === 'neon' 
               ? 'text-cyan-400' 
               : 'text-foreground'
@@ -47,7 +47,7 @@ export function WalletGate() {
           </h2>
         </div>
 
-        <p className="text-muted-foreground text-lg font-sans">
+        <p className="text-muted-foreground text-lg font-switzer">
           Connect your Sui wallet to access the deployment dashboard
         </p>
 
@@ -64,7 +64,7 @@ export function WalletGate() {
           />
         </div>
 
-        <div className="text-sm text-muted-foreground font-sans">
+        <div className="text-sm text-muted-foreground font-switzer">
           Supports Sui Wallet, Suiet, and Slush
         </div>
       </div>

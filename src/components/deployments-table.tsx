@@ -111,8 +111,8 @@ export function DeploymentsTable() {
         : ''
     }`}>
       <CardHeader>
-        <CardTitle className="font-display">Recent Deployments</CardTitle>
-        <CardDescription className="font-sans">
+        <CardTitle className="font-nohemi">Recent Deployments</CardTitle>
+        <CardDescription className="font-switzer">
           Monitor your deployment status
         </CardDescription>
       </CardHeader>
@@ -121,17 +121,17 @@ export function DeploymentsTable() {
           <Table className="w-full">
           <TableHeader>
             <TableRow>
-              <TableHead className="font-sans">Project</TableHead>
-              <TableHead className="font-sans">Repository</TableHead>
-              <TableHead className="font-sans">Status</TableHead>
-              <TableHead className="font-sans">Deployed</TableHead>
-              <TableHead className="font-sans">Actions</TableHead>
+              <TableHead className="font-switzer">Project</TableHead>
+              <TableHead className="font-switzer">Repository</TableHead>
+              <TableHead className="font-switzer">Status</TableHead>
+              <TableHead className="font-switzer">Deployed</TableHead>
+              <TableHead className="font-switzer">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {deployments.map((deployment) => (
               <TableRow key={deployment.id}>
-                <TableCell className="font-medium font-sans">{deployment.name}</TableCell>
+                <TableCell className="font-medium font-switzer">{deployment.name}</TableCell>
                 <TableCell className="font-mono text-sm text-muted-foreground">
                   {deployment.repo}
                 </TableCell>
@@ -140,7 +140,7 @@ export function DeploymentsTable() {
                     {deployment.status}
                   </Badge>
                 </TableCell>
-                <TableCell className="font-sans text-sm text-muted-foreground">
+                <TableCell className="font-switzer text-sm text-muted-foreground">
                   {deployment.createdAt.toLocaleDateString()}
                 </TableCell>
                 <TableCell>
